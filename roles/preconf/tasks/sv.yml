@@ -1,0 +1,16 @@
+- name: copy sv
+  sudo: Yes
+  copy: src=sv dest=/etc
+        owner=root group=root mode=755
+
+- name: make service symlinks
+  sudo: Yes
+  file: src=/etc/sv/zotero-download dest=/etc/service/zotero-download state=link
+
+- name: make service symlinks
+  sudo: Yes
+  file: src=/etc/sv/zotero-upload dest=/etc/service/zotero-upload state=link
+
+- name: make service symlinks
+  sudo: Yes
+  file: src=/etc/sv/zotero-error dest=/etc/service/zotero-error state=link

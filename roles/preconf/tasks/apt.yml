@@ -1,0 +1,28 @@
+- name: install required apt packages
+  sudo: Yes
+  apt: pkg={{item}} update_cache=Yes
+  with_items:
+    - git
+    - gnutls-bin
+    - runit
+    - libapache2-modsecurity
+    - curl
+    - apache2
+    - libapache2-mod-php5
+    - libapache2-mod-uwsgi
+    - mysql-server-5.6
+    - memcached
+    - zend-framework
+    - php5-cli
+    - php5-memcache # required?
+    - php5-memcached
+    - php5-mysql
+    - php5-curl # maybe also php5-igbinary
+    - python-mysqldb # required for ansible mysql module
+    - uwsgi
+    - uwsgi-plugin-psgi
+    - libplack-perl
+    - libjson-xs-perl
+    - libswitch-perl
+    - libfile-util-perl
+

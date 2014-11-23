@@ -1,0 +1,14 @@
+- name: create zotero.key
+  sudo: Yes
+  shell: certtool -p --sec-param high --outfile /etc/apache2/zotero.key
+
+- name: copy certtool.cfg
+  copy: src=certtool.cfg dest=/srv/certtool.cfg
+
+- name: create zotero.cert
+  sudo: Yes
+  shell: certtool -s --load-privkey /etc/apache2/zotero.key --outfile /etc/apache2/zotero.cert --template /srv/certtool.cfg
+
+- name: remove certtool.cfg
+  file: path=/srv/certtool.cfg
+        state=absent

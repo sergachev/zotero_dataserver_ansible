@@ -1,0 +1,7 @@
+admin: "z"
+#admin_home: "/home/{{admin}}/"
+mysql_adm_user: "root"
+mysql_adm_psw: "zoroot"
+mysql_user_name: "zotero"
+mysql_user_psw: "zotero"
+zss_secretkey: "zotero"

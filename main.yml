@@ -1,0 +1,6 @@
+---
+- hosts: h1
+  user: "{{admin}}"
+  roles: 
+    - preconf
+  tags: setup

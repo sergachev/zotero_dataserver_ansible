@@ -1,0 +1,32 @@
+# TODO
+#
+
+
+#Access to https://host.domain.tld/sync/login?version=9 should result in the following output
+#
+#<response version="9" timestamp="1398715040">
+#  <error code="NO_USER_NAME">Username not provided</error>
+#</response>
+#Storage access
+#
+
+
+#Access to https://host.domain.tld/zotero/ should result in the following output
+#
+#<Error><Code>SignatureDoesNotMatch</Code></Error>
+#API access
+#
+
+
+#Access to https://host.domain.tld/users/1/items should result in the following output
+#
+#Not found
+
+
+
+
+#Access to https://host.domain.tld/itemTypes should result in the following output
+#
+#[{"itemType":"artwork","localized":"Artwork"},{"itemType":"audioRecording","localized":"Audio Recording"},{"itemType":"bill","localized":"Bill"},
+#[... a lot more of these itemType records ...]
+#{"itemType":"videoRecording","localized":"Video Recording"},{"itemType":"we

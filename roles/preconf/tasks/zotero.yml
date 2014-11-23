@@ -1,0 +1,111 @@
+- name: create log directories
+  sudo: Yes
+  file: path='/srv/zotero/{{item}}' state=directory owner=www-data group=www-data
+  with_items:
+    - log
+    - log/download
+    - log/upload
+    - log/error
+
+- name: rm /sr/zotero
+  file: path=/srv/zotero
+        state=absent
+
+- name: git clone dataserver
+  git: repo=git://github.com/zotero/dataserver.git
+       dest=/srv/zotero/dataserver
+       accept_hostkey=True
+
+- name: remove bundled Zend and Elastica
+  file: path=/srv/zotero/dataserver/include/{{item}} state=absent
+  with_items:
+   - Zend
+   - Elastica
+
+- name: make symlink for Zend
+  file: src=/usr/share/php/libzend-framework-php/Zend dest=/srv/zotero/dataserver/include/Zend state=link
+
+- name: git clone Elastica
+  git: repo=git://github.com/ruflin/Elastica.git
+       dest=/srv/zotero/dataserver/include/Elastica
+       version=fc607170ab2ca751097648d48a5d38e15e9d5f6a
+       accept_hostkey=True # why this version?
+
+- name: git clone zss
+  git: repo=git://github.com/sualk/zss.git
+       dest=/srv/zotero/zss
+       accept_hostkey=True
+
+- name: create directories owned by www-data
+  sudo: Yes
+  file: path='/srv/zotero/{{item}}' state=directory owner=www-data group=www-data
+  with_items:
+   - dataserver/tmp
+   - storage
+
+- name: fix path in zss.psgi
+  lineinfile: dest=/srv/zotero/zss/zss.psgi
+              backrefs=Yes
+              regexp="^(.*)\/path\/to\/ZSS\.pm(.*)$"
+              line="\1/srv/zotero/zss/\2"
+
+- name: fix secretkey in ZSS.pm
+  lineinfile: dest=/srv/zotero/zss/ZSS.pm
+              backrefs=Yes
+              regexp="^(.*)yoursecretkey(.*)$"
+              line="\1{{zss_secretkey}}\2"
+
+- name: fix store in ZSS.pm
+  lineinfile: dest=/srv/zotero/zss/ZSS.pm
+              backrefs=Yes
+              regexp="^(.*)/path/to/storage(.*)$"
+              line="\1/srv/zotero/storage\2"
+
+- name: copy zss.yaml
+  sudo: Yes
+  copy: src=zss.yaml dest=/etc/uwsgi/apps-available/zss.yaml
+
+- name: make symlink for zss psgi
+  sudo: Yes
+  file: src=/etc/uwsgi/apps-available/zss.yaml dest=/etc/uwsgi/apps-enabled/zss.yaml state=link
+
+- name: download composer
+  get_url: url=https://getcomposer.org/installer dest=/srv/zotero/dataserver/composer_inst
+
+- name: run composer
+  shell: php composer_inst && php composer.phar install && rm composer_inst composer.phar
+  args:
+    chdir: /srv/zotero/dataserver/
+
+- name: copy apache site conf for zotero
+  sudo: Yes
+  copy: src=zotero.conf dest=/etc/apache2/sites-available/zotero.conf
+        owner=root group=root mode=644
+
+- name: change .htaccess
+  sudo: Yes
+  copy: src=htaccess dest=/srv/zotero/dataserver/htdocs/.htaccess
+
+
+- name: copy *.inc.php
+  template: src={{item}}.inc.php dest=/srv/zotero/dataserver/include/config/{{item}}.inc.php
+  with_items:
+    - config
+    - dbconnect
+
+
+
+- name: enable ssl and rewrite in apache
+  sudo: Yes
+  shell: a2enmod ssl rewrite
+
+- name: enable zotero site
+  sudo: Yes
+  shell: a2ensite zotero
+
+- name: restart uwsgi and apache
+  sudo: Yes
+  service: name={{item}} state=restarted
+  with_items:
+   - uwsgi
+   - apache2

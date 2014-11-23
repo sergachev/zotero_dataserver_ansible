@@ -1,0 +1,81 @@
+- name: create mysql config for zotero
+  sudo: Yes
+  copy: src=mysql_zotero.cnf dest=/etc/mysql/conf.d/zotero.cnf
+        owner=root group=root mode=644
+
+- name: restart mysql
+  sudo: Yes
+  service: name=mysql state=restarted
+
+- name: delete mysql user
+  mysql_user: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name={{mysql_user_name}} state=absent
+
+- name: create mysql user with defined priveleges
+  mysql_user: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name={{mysql_user_name}} password={{mysql_user_psw}} state=present
+              priv=zotero_master.*:SELECT,INSERT,UPDATE,DELETE/zotero_shards.*:SELECT,INSERT,UPDATE,DELETE/zotero_ids.*:SELECT,INSERT,DELETE/zotero_www.*:SELECT,INSERT,DELETE
+
+
+- name: drop DBs
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_{{item}} state=absent
+  with_items:
+    - master
+    - shards
+    - ids
+    - www
+
+- name: create DBs
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_{{item}} state=present
+  with_items:
+    - master
+    - shards
+    - ids
+    - www
+
+- name: import zotero_master dumps
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_master state=import
+            target=/srv/zotero/dataserver/misc/{{item}}.sql
+  with_items:
+    - master
+    - coredata
+    - fulltext
+
+- name: import zotero_shards dumps
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_shards state=import
+            target=/srv/zotero/dataserver/misc/{{item}}.sql
+  with_items:
+    - shard
+    - triggers
+
+- name: import zotero_ids dump
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_ids state=import
+            target=/srv/zotero/dataserver/misc/ids.sql
+
+- name: copy www.sql
+  copy: src=www.sql dest=/srv/zotero/www.sql
+
+- name: import zotero_www dump
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_www state=import
+            target=/srv/zotero/www.sql
+
+
+- name: copy sql dumps
+  template: src=zotero_{{item}}.sql dest=/srv/zotero_{{item}}.sql
+  with_items:
+    - master
+    - www
+
+- name: import sql dumps
+  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_{{item}} state=import
+            target=/srv/zotero_{{item}}.sql
+  with_items:
+    - master
+    - www
+
+- name: remove sql dumps
+  file: path=/srv/zotero_{{item}}.sql state=absent
+  with_items:
+    - master
+    - www
+
+- name: remove sql dumps
+  file: path=/srv/zotero/www.sql state=absent
