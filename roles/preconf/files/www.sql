@@ -49,10 +49,12 @@ PRIMARY KEY (`email`)
 
 CREATE TABLE `users` (
 `userID` mediumint unsigned auto_increment NOT NULL,
+`email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
 `username` varchar(40) NOT NULL,
 `password` char(40) NULL,
 UNIQUE KEY (`username`),
-UNIQUE KEY (`userID`)
+UNIQUE KEY (`userID`),
+UNIQUE KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users_meta` (
@@ -67,8 +69,8 @@ CREATE TABLE `LUM_User` (
 PRIMARY KEY (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `LUM_Role` (
-`RoleID` int(10) unsigned NOT NULL,
+CREATE TABLE `LUM_ROLE` (
 `Name` enum('Deleted','Invalid','Valid') NOT NULL,
+`RoleID` int(10) unsigned NOT NULL,
 PRIMARY KEY (`RoleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
