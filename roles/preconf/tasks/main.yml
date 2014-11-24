@@ -5,6 +5,10 @@
 - include: sv.yml             tags=sv
 # test!
 
+# TODO:
+#/etc/php5/cli/php.ini
+# short_open_tag = On
+
 
 
 # TODO:
@@ -15,6 +19,7 @@
 
 # PHP Warning:  Memcached::setOptions(): invalid serializer provided in /srv/zotero/dataserver/include/Memcached.inc.php on line 63
 
+# uninitialized $received_signature in ZSS.pm
 
 
 # required?
@@ -26,3 +31,4 @@
 
 # TODO: fix relax-ng
 # or not required already?
+
