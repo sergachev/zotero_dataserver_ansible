@@ -28,20 +28,20 @@ function Zotero_dbConnectAuth($db) {
                 $user = '{{mysql_user_name}}';
                 $pass = '{{mysql_user_psw}}';
         }
-        else if ($db == 'www1') {
-                $host = 'localhost';
-                $port = 3306;
-                $db = 'zotero_www';
-                $user = '{{mysql_user_name}}';
-                $pass = '{{mysql_user_psw}}';
-        }
-        else if ($db == 'www2') {
-                $host = 'localhost';
-                $port = 3306;
-                $db = 'zotero_www';
-                $user = '{{mysql_user_name}}';
-                $pass = '{{mysql_user_psw}}';
-        }
+#        else if ($db == 'www1') {
+#                $host = 'localhost';
+#                $port = 3306;
+#                $db = 'zotero_www';
+#                $user = '{{mysql_user_name}}';
+#                $pass = '{{mysql_user_psw}}';
+#        }
+#        else if ($db == 'www2') {
+#                $host = 'localhost';
+#                $port = 3306;
+#                $db = 'zotero_www';
+#                $user = '{{mysql_user_name}}';
+#                $pass = '{{mysql_user_psw}}';
+#        }
         else {
                 throw new Exception("Invalid db '$db'");
         }

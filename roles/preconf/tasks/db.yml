@@ -21,7 +21,7 @@
     - master
     - shards
     - ids
-    - www
+#    - www
 
 - name: create DBs
   mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_{{item}} state=present
@@ -29,7 +29,7 @@
     - master
     - shards
     - ids
-    - www
+#    - www
 
 - name: import zotero_master dumps
   mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_master state=import
@@ -37,7 +37,7 @@
   with_items:
     - master
     - coredata
-    - fulltext
+#    - fulltext
 
 - name: import zotero_shards dumps
   mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_shards state=import
@@ -50,35 +50,35 @@
   mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_ids state=import
             target=/srv/zotero/dataserver/misc/ids.sql
 
-- name: copy www.sql
-  copy: src=www.sql dest=/srv/zotero/www.sql
+#- name: copy www.sql
+#  copy: src=www.sql dest=/srv/zotero/www.sql
 
-- name: import zotero_www dump
-  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_www state=import
-            target=/srv/zotero/www.sql
+#- name: import zotero_www dump
+#  mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_www state=import
+#            target=/srv/zotero/www.sql
 
 
 - name: copy sql dumps
-  template: src=zotero_{{item}}.sql dest=/srv/zotero_{{item}}.sql
+  template: src=zotero_{{item}}.sql dest=/srv/zotero/zotero_{{item}}.sql
   with_items:
     - master
-    - www
+#    - www
 
 - name: import sql dumps
   mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_{{item}} state=import
-            target=/srv/zotero_{{item}}.sql
+            target=/srv/zotero/zotero_{{item}}.sql
   with_items:
     - master
-    - www
+#    - www
 
 - name: remove sql dumps
-  file: path=/srv/zotero_{{item}}.sql state=absent
+  file: path=/srv/zotero/zotero_{{item}}.sql state=absent
   with_items:
     - master
-    - www
+#    - www
 
-- name: remove sql dumps
-  file: path=/srv/zotero/www.sql state=absent
+#- name: remove sql dumps
+#  file: path=/srv/zotero/www.sql state=absent
 
 
 # TODO: create one user

@@ -11,7 +11,7 @@ class Z_CONFIG {
   public static $DEBUG_LOG = false;
 
   public static $BASE_URI = '';
-  public static $API_BASE_URI = 'https://localhost/';
+  public static $API_BASE_URI = 'https://{{server_addr}}/';
   public static $WWW_BASE_URI = '';
   public static $SYNC_DOMAIN = 'sync';
 
@@ -22,10 +22,10 @@ class Z_CONFIG {
   public static $AWS_ACCESS_KEY = 'zotero';
   public static $AWS_SECRET_KEY = '{{zss_secretkey}}';
   public static $S3_BUCKET = 'zotero';
-  public static $S3_BUCKET_CACHE = '';
-  // public static $S3_ENDPOINT = 'localhost'; // not used anywhere
-  // public static $S3_USE_SSL = true;         // not used anywhere
-  // public static $S3_VALIDATE_SSL = false;   // not used anywhere
+ // public static $S3_BUCKET_CACHE = '';
+  public static $S3_ENDPOINT = '{{server_addr}}';
+  public static $S3_USE_SSL = true;
+  public static $S3_VALIDATE_SSL = false;
 
   public static $URI_PREFIX_DOMAIN_MAP = array(
     '/sync/' => 'sync'

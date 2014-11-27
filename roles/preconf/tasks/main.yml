@@ -1,32 +1,21 @@
 - include: apt.yml            tags=apt
-- include: ssl.yml            tags=ssl
 - include: zotero.yml         tags=zotero
+- include: ssl.yml            tags=ssl
+- include: system.yml            tags=system
 - include: db.yml             tags=db
 - include: sv.yml             tags=sv
+
 # test!
 
-# TODO:
-#/etc/php5/cli/php.ini
-# short_open_tag = On
-
-
 
 # TODO:
-
-#Use of uninitialized value $received_signature in string eq at /srv/zotero/zss/ZSS.pm line 147.
-
-# PHP Notice:  Undefined offset: 1 in /srv/zotero/dataserver/include/header.inc.php on line 234
 
 # PHP Warning:  Memcached::setOptions(): invalid serializer provided in /srv/zotero/dataserver/include/Memcached.inc.php on line 63
 
-# uninitialized $received_signature in ZSS.pm
 
-
-# required?
 #read AWS_HOST
 #sed -i "27a\ \ \ \ \ \ \ \ public static \$AWS_HOST\ =\ '${AWS_HOST};'" /srv/zotero/dataserver/include/config/config.inc.php
 
-# required?
 #sed -i "225a \$awsconfig['base_url']\ =\ ZCONFIG::\$AWS_HOST;" /srv/zotero/dataserver/include/header.inc.php
 
 # TODO: fix relax-ng

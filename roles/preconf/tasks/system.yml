@@ -1,0 +1,35 @@
+- name: copy zss.yaml
+  sudo: Yes
+  copy: src=zss.yaml dest=/etc/uwsgi/apps-available/zss.yaml
+
+- name: make symlink for zss psgi
+  sudo: Yes
+  file: src=/etc/uwsgi/apps-available/zss.yaml dest=/etc/uwsgi/apps-enabled/zss.yaml state=link
+
+- name: allow short tags for php
+  lineinfile: dest={{item}}
+              backrefs=Yes
+              regexp="^(\s*short_open_tags\s*=\s*)Off(.*)$"
+              line="\1On\2"
+  with_items:
+   - /etc/php5/cli/php.ini
+   - /etc/php5/apache2/php.ini
+
+- name: copy apache site conf for zotero
+  sudo: Yes
+  template: src=zotero.conf dest=/etc/apache2/sites-available/zotero.conf owner=root group=root mode=644
+
+- name: enable ssl and rewrite in apache
+  sudo: Yes
+  shell: a2enmod ssl rewrite
+
+- name: enable zotero site
+  sudo: Yes
+  shell: a2ensite zotero
+
+- name: restart uwsgi and apache
+  sudo: Yes
+  service: name={{item}} state=restarted
+  with_items:
+   - uwsgi
+   - apache2
