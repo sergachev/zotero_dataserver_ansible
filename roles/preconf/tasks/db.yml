@@ -79,3 +79,6 @@
 
 - name: remove sql dumps
   file: path=/srv/zotero/www.sql state=absent
+
+
+# TODO: create one user

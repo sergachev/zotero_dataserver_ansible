@@ -19,12 +19,13 @@ class Z_CONFIG {
   public static $API_SUPER_USERNAME = 'zotero';
   public static $API_SUPER_PASSWORD = 'zotero';
 
-  public static $AWS_ACCESS_KEY = '';
+  public static $AWS_ACCESS_KEY = 'zotero';
   public static $AWS_SECRET_KEY = '{{zss_secretkey}}';
   public static $S3_BUCKET = 'zotero';
-  public static $S3_ENDPOINT = 'localhost';
-  public static $S3_USE_SSL = true;
-  public static $S3_VALIDATE_SSL = false;
+  public static $S3_BUCKET_CACHE = '';
+  // public static $S3_ENDPOINT = 'localhost'; // not used anywhere
+  // public static $S3_USE_SSL = true;         // not used anywhere
+  // public static $S3_VALIDATE_SSL = false;   // not used anywhere
 
   public static $URI_PREFIX_DOMAIN_MAP = array(
     '/sync/' => 'sync'
@@ -43,7 +44,7 @@ class Z_CONFIG {
     "citeserver1.localdomain:8080", "citeserver2.localdomain:8080"
   );
 
-  public static $SEARCH_HOSTS = [''];
+  public static $SEARCH_HOSTS = ['localhost'];
 
   public static $ATTACHMENT_SERVER_HOSTS = array("files1.localdomain", "files2.localdomain");
   public static $ATTACHMENT_SERVER_DYNAMIC_PORT = 80;
