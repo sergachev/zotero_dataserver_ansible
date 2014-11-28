@@ -25,4 +25,5 @@
     - libjson-xs-perl
     - libswitch-perl
     - libfile-util-perl
+    - phpmyadmin # easy way to manage the server
 

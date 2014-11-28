@@ -1,0 +1,28 @@
+- name: git clone client
+  git: repo=https://github.com/zotero/zotero-standalone-build.git
+       dest=/home/{{admin}}/zotero-standalone-build
+       accept_hostkey=True
+
+# TODO: fetch only if it does not exist
+- name: fetch xulrunner
+  shell: bash fetch_xulrunner.sh
+  args:
+    chdir: /home/{{admin}}/zotero-standalone-build
+
+- name: patch sync server address
+  lineinfile: dest=/home/{{admin}}/zotero-standalone-build/modules/zotero/chrome/content/zotero/xpcom/zotero.js
+              backrefs=Yes
+              regexp="^(\s*SYNC_URL{{':'}} ').*('.*)$"
+              line="\1https://{{server_addr}}/sync/\2"
+
+
+- name: patch API server address
+  lineinfile: dest=/home/{{admin}}/zotero-standalone-build/modules/zotero/chrome/content/zotero/xpcom/zotero.js
+              backrefs=Yes
+              regexp="^(\s*API_URL{{':'}} ').*('.*)$"
+              line="\1https://{{server_addr}}/\2"
+
+- name: build client
+  shell: bash build.sh
+  args:
+    chdir: /home/{{admin}}/zotero-standalone-build

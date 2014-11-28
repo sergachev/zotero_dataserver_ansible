@@ -31,7 +31,7 @@
   file: path=/srv/zotero/dataserver/include/{{item}} state=absent
   with_items:
    - Zend
-   - Elastica
+#   - Elastica
 
 - name: make symlink for Zend
   file: src=/usr/share/php/libzend-framework-php/Zend dest=/srv/zotero/dataserver/include/Zend state=link

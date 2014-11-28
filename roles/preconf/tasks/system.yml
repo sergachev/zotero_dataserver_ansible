@@ -9,7 +9,7 @@
 - name: allow short tags for php
   lineinfile: dest={{item}}
               backrefs=Yes
-              regexp="^(\s*short_open_tags\s*=\s*)Off(.*)$"
+              regexp="^(\s*short_open_tag\s*=\s*)Off(.*)$"
               line="\1On\2"
   with_items:
    - /etc/php5/cli/php.ini

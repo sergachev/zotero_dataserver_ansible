@@ -1,14 +1,23 @@
 - include: apt.yml            tags=apt
 - include: zotero.yml         tags=zotero
 - include: ssl.yml            tags=ssl
-- include: system.yml            tags=system
+- include: system.yml         tags=system
 - include: db.yml             tags=db
 - include: sv.yml             tags=sv
+- include: build_client.yml             tags=client
 
-# test!
+
 
 
 # TODO:
+
+# test!
+
+# add users and groups! (maybe via phpmyadmin)
+
+# make cert_override.txt
+
+
 
 # PHP Warning:  Memcached::setOptions(): invalid serializer provided in /srv/zotero/dataserver/include/Memcached.inc.php on line 63
 

@@ -8,10 +8,12 @@
   service: name=mysql state=restarted
 
 - name: delete mysql user
-  mysql_user: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name={{mysql_user_name}} state=absent
+  mysql_user: check_implicit_admin=yes login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}}
+              name={{mysql_user_name}} state=absent
 
 - name: create mysql user with defined priveleges
-  mysql_user: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name={{mysql_user_name}} password={{mysql_user_psw}} state=present
+  mysql_user: check_implicit_admin=yes login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}}
+              name={{mysql_user_name}} password={{mysql_user_psw}} state=present
               priv=zotero_master.*:SELECT,INSERT,UPDATE,DELETE/zotero_shards.*:SELECT,INSERT,UPDATE,DELETE/zotero_ids.*:SELECT,INSERT,DELETE/zotero_www.*:SELECT,INSERT,DELETE
 
 
