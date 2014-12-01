@@ -1,0 +1,5 @@
+- name: rm relax-ng
+  file: path=/srv/zotero/dataserver/model/relax-ng state=absent
+
+- name: copy new relax-ng
+  copy: src=relax-ng dest=/srv/zotero/dataserver/model

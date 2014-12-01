@@ -1,5 +1,6 @@
 - include: apt.yml            tags=apt
 - include: zotero.yml         tags=zotero
+- include: relaxng.yml        tags=relaxng
 - include: ssl.yml            tags=ssl
 - include: system.yml         tags=system
 - include: db.yml             tags=db
@@ -27,6 +28,4 @@
 
 #sed -i "225a \$awsconfig['base_url']\ =\ ZCONFIG::\$AWS_HOST;" /srv/zotero/dataserver/include/header.inc.php
 
-# TODO: fix relax-ng
-# or not required already?
 
