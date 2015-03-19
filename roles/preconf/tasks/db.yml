@@ -16,6 +16,9 @@
               name={{mysql_user_name}} password={{mysql_user_psw}} state=present
               priv=zotero_master.*:SELECT,INSERT,UPDATE,DELETE/zotero_shards.*:SELECT,INSERT,UPDATE,DELETE/zotero_ids.*:SELECT,INSERT,DELETE/zotero_www.*:SELECT,INSERT,DELETE
 
+- name: set password for mysql admin user
+  mysql_user: check_implicit_admin=yes login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}}
+              name={{mysql_adm_user}} password={{mysql_adm_psw}} state=present
 
 - name: drop DBs
   mysql_db: login_user={{mysql_adm_user}} login_password={{mysql_adm_psw}} name=zotero_{{item}} state=absent
